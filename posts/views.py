@@ -6,7 +6,8 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy, reverse
 from django.http import JsonResponse
-from .models import Post, Comment
+from django.utils import timezone
+from .models import Post, Comment, Announcement
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -17,6 +18,15 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-created_at']
     paginate_by = 5
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get upcoming active announcements
+        context['announcements'] = Announcement.objects.filter(
+            is_active=True,
+            event_date__gte=timezone.now()
+        ).order_by('event_date')[:5]  # Limit to 5 upcoming events
+        return context
 
 # User's posts view
 class UserPostListView(ListView):

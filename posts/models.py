@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 from PIL import Image
 
 # Create your models here.
@@ -62,3 +63,23 @@ class Comment(models.Model):
     
     def __str__(self):
         return f'Comment by {self.author.username} on {self.post.title}'
+
+# Announcement/Event model for admins to create events
+class Announcement(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    event_date = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='announcements')
+    is_active = models.BooleanField(default=True)
+    
+    class Meta:
+        ordering = ['event_date']
+    
+    def __str__(self):
+        return self.title
+    
+    @property
+    def is_past_event(self):
+        return self.event_date < timezone.now()
