@@ -9,9 +9,9 @@
             {% for post in posts %}
                 <div class="card post-card">
                     <div class="post-header">
-                        <img src="{{ post.author.profile.image_url }}" alt="{{ post.author.username }}">
-                        <div>
-                            <h5 class="mb-0"><a href="{% url 'user-posts' post.author.username %}" class="text-decoration-none">{{ post.author.username }}</a></h5>
+                        <img src="{{ post.author.profile.image_url }}" alt="{{ post.author.username }}" class="rounded-circle">
+                        <div class="post-meta">
+                            <a href="{% url 'user-profile' post.author.username %}" class="text-decoration-none">{{ post.author.username }}</a>
                             <small class="text-muted">{{ post.created_at|date:"F d, Y" }}</small>
                         </div>
                         {% if post.author == user %}
@@ -171,16 +171,23 @@
                                     </div>
                                     <div>
                                         <h6 class="mb-0 d-flex align-items-center">
-                                            <a href="{% url 'user-posts' active_user.username %}" class="text-decoration-none">{{ active_user.username }}</a>
+                                            <a href="{% url 'user-profile' active_user.username %}" class="text-decoration-none">{{ active_user.username }}</a>
                                             {% if active_user.is_online %}
                                                 <span class="ms-2 small text-success">• Online</span>
                                             {% endif %}
                                         </h6>
                                         <small class="text-muted">{{ active_user.post_count }} post{{ active_user.post_count|pluralize }}</small>
                                     </div>
-                                    {% if active_user.is_staff %}
-                                        <span class="badge bg-primary ms-auto">Admin</span>
-                                    {% endif %}
+                                    <div class="ms-auto d-flex align-items-center">
+                                        {% if active_user.is_staff %}
+                                            <span class="badge bg-primary me-2">Admin</span>
+                                        {% endif %}
+                                        {% if user.is_authenticated and user != active_user %}
+                                            <a href="{% url 'chat-start' active_user.username %}" class="btn btn-sm btn-outline-primary" title="Send message">
+                                                <i class="fas fa-envelope"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </li>
                         {% endfor %}

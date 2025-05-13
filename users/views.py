@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
+from posts.models import Post
 
 def register(request):
     if request.method == 'POST':
@@ -47,3 +49,20 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+
+def user_profile(request, username):
+    """View for viewing other users' profiles"""
+    profile_user = get_object_or_404(User, username=username)
+    
+    # Get user's posts
+    posts = Post.objects.filter(author=profile_user).order_by('-created_at')[:5]
+    
+    # Check if this is the current user's profile
+    is_own_profile = request.user.is_authenticated and request.user == profile_user
+    
+    context = {
+        'profile_user': profile_user,
+        'posts': posts,
+        'is_own_profile': is_own_profile
+    }
+    return render(request, 'users/user_profile.html', context)

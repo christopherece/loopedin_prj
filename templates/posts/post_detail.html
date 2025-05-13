@@ -8,7 +8,7 @@
             <div class="post-header">
                 <img src="{{ object.author.profile.image_url }}" alt="{{ object.author.username }}">
                 <div>
-                    <h5 class="mb-0"><a href="{% url 'user-posts' object.author.username %}" class="text-decoration-none">{{ object.author.username }}</a></h5>
+                    <h5 class="mb-0"><a href="{% url 'user-profile' object.author.username %}" class="text-decoration-none">{{ object.author.username }}</a></h5>
                     <small class="text-muted">{{ object.created_at|date:"F d, Y" }}</small>
                 </div>
                 {% if object.author == user %}
