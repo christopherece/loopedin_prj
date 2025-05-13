@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Custom CSS -->
     <style>
+        :root {
+            --bs-body-bg: #f8f9fa;
+            --post-card-bg: #ffffff;
+            --post-header-border: #eee;
+            --post-actions-border: #eee;
+            --comment-section-bg: #f8f9fa;
+            --comment-border: #eee;
+        }
+        
+        [data-bs-theme="dark"] {
+            --bs-body-bg: #212529;
+            --post-card-bg: #2c3034;
+            --post-header-border: #373b3e;
+            --post-actions-border: #373b3e;
+            --comment-section-bg: #2c3034;
+            --comment-border: #373b3e;
+        }
+        
         body {
-            background-color: #f8f9fa;
+            background-color: var(--bs-body-bg);
             padding-top: 56px;
         }
         .content {
@@ -21,12 +39,13 @@
             margin-bottom: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: var(--post-card-bg);
         }
         .post-header {
             display: flex;
             align-items: center;
             padding: 10px 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--post-header-border);
         }
         .post-header img {
             width: 40px;
@@ -39,19 +58,19 @@
         }
         .post-actions {
             padding: 10px 15px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--post-actions-border);
             display: flex;
             justify-content: space-between;
         }
         .comment-section {
             padding: 15px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #eee;
+            background-color: var(--comment-section-bg);
+            border-top: 1px solid var(--post-actions-border);
         }
         .comment {
             padding: 10px;
             margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--comment-border);
         }
         .profile-header {
             background-color: white;
@@ -141,6 +160,11 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <button class="nav-link btn btn-link" id="darkModeToggle">
+                                <i class="fas fa-moon" id="darkModeIcon"></i>
+                            </button>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ user.profile.image_url }}" alt="{{ user.username }}" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
@@ -194,6 +218,36 @@
     <!-- Custom JS -->
     <script>
         $(document).ready(function() {
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                updateDarkModeIcon(savedTheme);
+            }
+            
+            // Dark mode toggle functionality
+            $('#darkModeToggle').click(function() {
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                // Update the theme
+                document.documentElement.setAttribute('data-bs-theme', newTheme);
+                
+                // Save preference to localStorage
+                localStorage.setItem('theme', newTheme);
+                
+                // Update the icon
+                updateDarkModeIcon(newTheme);
+            });
+            
+            function updateDarkModeIcon(theme) {
+                if (theme === 'dark') {
+                    $('#darkModeIcon').removeClass('fa-moon').addClass('fa-sun');
+                } else {
+                    $('#darkModeIcon').removeClass('fa-sun').addClass('fa-moon');
+                }
+            }
+            
             // Like functionality
             $('.btn-like').click(function(e) {
                 e.preventDefault();
