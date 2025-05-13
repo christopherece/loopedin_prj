@@ -95,15 +95,17 @@
                 <ul class="navbar-nav align-items-center">
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bell"></i>
+                            <div class="position-relative d-inline-block">
+                                <a class="nav-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                </a>
                                 {% if unread_notifications_count > 0 %}
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem;">
+                                <a href="{% url 'notifications' %}" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem; text-decoration: none;" id="notification-counter">
                                     {{ unread_notifications_count }}
                                     <span class="visually-hidden">unread notifications</span>
-                                </span>
+                                </a>
                                 {% endif %}
-                            </a>
+                            </div>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="width: 300px;">
                                 <li>
                                     <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
@@ -113,7 +115,7 @@
                                 </li>
                                 {% for notification in request.user.notifications.all|slice:":5" %}
                                 <li>
-                                    <a class="dropdown-item py-2 {% if not notification.is_read %}bg-light{% endif %}" href="{% url 'mark-notification-read' notification.id %}">
+                                    <a class="dropdown-item py-2 notification-link {% if not notification.is_read %}bg-light{% endif %}" href="{% url 'mark-notification-read' notification.id %}" data-notification-id="{{ notification.id }}">
                                         <div class="d-flex align-items-center">
                                             <img src="{{ notification.actor.profile.image_url }}" alt="{{ notification.actor.username }}" class="rounded-circle me-2" style="width: 32px; height: 32px;">
                                             <div style="font-size: 0.9rem;">
@@ -217,6 +219,35 @@
             $('#logout-link').click(function(e) {
                 e.preventDefault();
                 window.location.href = '{% url "logout" %}';
+            });
+            
+            // Notification functionality
+            $('.notification-link').click(function() {
+                const notificationId = $(this).data('notification-id');
+                const notificationItem = $(this);
+                
+                // Mark notification as read via AJAX
+                $.ajax({
+                    url: `/notifications/${notificationId}/mark-read/`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function() {
+                        // Remove the highlight from this notification
+                        notificationItem.removeClass('bg-light');
+                        
+                        // Decrement the notification counter
+                        let counter = $('#notification-counter');
+                        let count = parseInt(counter.text());
+                        if (count > 1) {
+                            counter.text(count - 1);
+                        } else {
+                            // Hide the counter if it reaches zero
+                            counter.parent().hide();
+                        }
+                    }
+                });
             });
         });
     </script>

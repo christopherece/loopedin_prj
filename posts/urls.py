@@ -16,4 +16,5 @@ urlpatterns = [
     path('post/<int:pk>/like/', views.like_post, name='like-post'),
     path('notifications/', views.notifications, name='notifications'),
     path('notifications/<int:notification_id>/read/', views.mark_notification_read, name='mark-notification-read'),
+    path('notifications/<int:notification_id>/mark-read/', views.mark_notification_read_ajax, name='mark-notification-read-ajax'),
 ]

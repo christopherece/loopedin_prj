@@ -202,3 +202,13 @@ def mark_notification_read(request, notification_id):
     
     # Redirect to the post that the notification is about
     return redirect('post-detail', pk=notification.post.pk)
+
+# AJAX endpoint to mark notification as read
+@login_required
+def mark_notification_read_ajax(request, notification_id):
+    if request.method == 'POST':
+        notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+        notification.is_read = True
+        notification.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
