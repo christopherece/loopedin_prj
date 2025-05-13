@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from PIL import Image
 
 # Create your models here.
@@ -83,3 +85,23 @@ class Announcement(models.Model):
     @property
     def is_past_event(self):
         return self.event_date < timezone.now()
+
+# Notification model for tracking interactions
+class Notification(models.Model):
+    NOTIFICATION_TYPES = (
+        ('like', 'Like'),
+        ('comment', 'Comment'),
+    )
+    
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
+    actor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='actions')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='notifications')
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f'{self.actor.username} {self.notification_type}d your post "{self.post.title}"'

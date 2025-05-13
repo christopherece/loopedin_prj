@@ -7,7 +7,9 @@ from django.views.generic import (
 from django.urls import reverse_lazy, reverse
 from django.http import JsonResponse
 from django.utils import timezone
-from .models import Post, Comment, Announcement
+from django.db.models import Count, Q
+from django.contrib.sessions.models import Session
+from .models import Post, Comment, Announcement, Notification
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -26,6 +28,36 @@ class PostListView(ListView):
             is_active=True,
             event_date__gte=timezone.now()
         ).order_by('event_date')[:5]  # Limit to 5 upcoming events
+        
+        # Get active users (users with posts)
+        active_users = User.objects.annotate(
+            post_count=Count('posts')
+        ).filter(post_count__gt=0).order_by('-last_login')[:10]  # Top 10 active users
+        
+        # Get currently logged in users (users with active sessions)
+        active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+        logged_in_user_ids = []
+        
+        # Extract user IDs from session data
+        for session in active_sessions:
+            data = session.get_decoded()
+            user_id = data.get('_auth_user_id')
+            if user_id:
+                logged_in_user_ids.append(int(user_id))
+        
+        # Mark users as online or offline
+        for user in active_users:
+            user.is_online = user.id in logged_in_user_ids
+        
+        context['active_users'] = active_users
+        
+        # Add unread notifications count for the current user
+        if self.request.user.is_authenticated:
+            context['unread_notifications_count'] = Notification.objects.filter(
+                recipient=self.request.user,
+                is_read=False
+            ).count()
+            
         return context
 
 # User's posts view
@@ -91,11 +123,22 @@ def add_comment(request, pk):
     if request.method == 'POST':
         content = request.POST.get('content')
         if content:
+            # Create the comment
             Comment.objects.create(
                 post=post,
                 author=request.user,
                 content=content
             )
+            
+            # Create notification for post owner (if not the same as comment author)
+            if post.author != request.user:
+                Notification.objects.create(
+                    recipient=post.author,
+                    notification_type='comment',
+                    actor=request.user,
+                    post=post
+                )
+                
             messages.success(request, 'Comment added successfully!')
         else:
             messages.error(request, 'Comment cannot be empty!')
@@ -110,11 +153,52 @@ def like_post(request, pk):
     if request.user in post.likes.all():
         post.likes.remove(request.user)
         liked = False
+        
+        # Remove any existing like notification
+        Notification.objects.filter(
+            recipient=post.author,
+            notification_type='like',
+            actor=request.user,
+            post=post
+        ).delete()
     else:
         post.likes.add(request.user)
         liked = True
+        
+        # Create notification for post owner (if not the same as like author)
+        if post.author != request.user:
+            Notification.objects.create(
+                recipient=post.author,
+                notification_type='like',
+                actor=request.user,
+                post=post
+            )
     
     return JsonResponse({
         'liked': liked,
         'count': post.get_like_count()
     })
+
+# Notifications view
+@login_required
+def notifications(request):
+    # Get all notifications for the current user
+    notifications_list = Notification.objects.filter(recipient=request.user).order_by('-created_at')
+    
+    # Mark all as read if requested
+    if request.GET.get('mark_all_read'):
+        notifications_list.update(is_read=True)
+        messages.success(request, 'All notifications marked as read.')
+        return redirect('notifications')
+    
+    return render(request, 'posts/notifications.html', {'notifications': notifications_list})
+
+# Mark notification as read
+@login_required
+def mark_notification_read(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+    notification.is_read = True
+    notification.save()
+    
+    # Redirect to the post that the notification is about
+    return redirect('post-detail', pk=notification.post.pk)
