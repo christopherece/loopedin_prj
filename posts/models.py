@@ -10,7 +10,7 @@ from PIL import Image
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    image = models.ImageField(upload_to='post_images', blank=True, null=True)
+    image = models.FileField(upload_to='post_media', blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -40,14 +40,16 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         
-        # Resize post image if it's too large
+        # Try to resize if it's an image file
         try:
             if self.image and hasattr(self.image, 'path'):
-                img = Image.open(self.image.path)
-                if img.height > 800 or img.width > 800:
-                    output_size = (800, 800)
-                    img.thumbnail(output_size)
-                    img.save(self.image.path)
+                file_name = self.image.name.lower()
+                if file_name.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp')):
+                    img = Image.open(self.image.path)
+                    if img.height > 800 or img.width > 800:
+                        output_size = (800, 800)
+                        img.thumbnail(output_size)
+                        img.save(self.image.path)
         except Exception as e:
             # Handle case where image file doesn't exist
             print(f"Error processing post image: {e}")

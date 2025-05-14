@@ -421,11 +421,23 @@
                             <textarea class="form-control" id="id_content" name="content" rows="5" placeholder="What do you want to share?" required></textarea>
                         </div>
                         <div class="mb-3" style="display: none;">
-                            <input type="file" class="form-control" id="id_image" name="image" accept="image/*">
+                            <input type="file" class="form-control" id="id_image" name="image" accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+                            <input type="hidden" id="media_type" name="media_type" value="">
                         </div>
                         <div id="image-preview" class="mb-3 d-none">
-                            <img src="" alt="Preview" class="img-fluid rounded" style="max-height: 200px;">
-                            <button type="button" class="btn btn-sm btn-outline-danger mt-2" id="remove-image">Remove Image</button>
+                            <div id="image-container">
+                                <img src="" alt="Preview" class="img-fluid rounded" style="max-height: 200px;">
+                            </div>
+                            <div id="video-container" class="d-none">
+                                <video controls class="img-fluid rounded" style="max-height: 200px;"></video>
+                            </div>
+                            <div id="document-container" class="d-none">
+                                <div class="p-3 border rounded bg-light text-center">
+                                    <i class="fas fa-file-alt fa-3x mb-2"></i>
+                                    <p id="document-name" class="mb-0"></p>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-2" id="remove-media">Remove</button>
                         </div>
                     </form>
                 </div>
@@ -579,23 +591,86 @@
                     imageInput.click();
                 });
                 
-                // Show image preview when file is selected
+                // Show preview when file is selected
                 imageInput.addEventListener('change', function() {
                     if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        const mediaType = document.getElementById('media_type').value || 'photo';
                         const reader = new FileReader();
-                        reader.onload = function(e) {
-                            previewImage.src = e.target.result;
+                        
+                        // Get containers
+                        const imageContainer = document.getElementById('image-container');
+                        const videoContainer = document.getElementById('video-container');
+                        const documentContainer = document.getElementById('document-container');
+                        const documentName = document.getElementById('document-name');
+                        
+                        // Hide all containers first
+                        imageContainer.classList.add('d-none');
+                        videoContainer.classList.add('d-none');
+                        documentContainer.classList.add('d-none');
+                        
+                        if (file.type.startsWith('image/')) {
+                            // Handle image files
+                            reader.onload = function(e) {
+                                const img = imageContainer.querySelector('img');
+                                img.src = e.target.result;
+                                imageContainer.classList.remove('d-none');
+                                imagePreview.classList.remove('d-none');
+                            };
+                            reader.readAsDataURL(file);
+                        } else if (file.type.startsWith('video/')) {
+                            // Handle video files
+                            reader.onload = function(e) {
+                                const video = videoContainer.querySelector('video');
+                                video.src = e.target.result;
+                                videoContainer.classList.remove('d-none');
+                                imagePreview.classList.remove('d-none');
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            // Handle document files
+                            documentName.textContent = file.name;
+                            documentContainer.classList.remove('d-none');
                             imagePreview.classList.remove('d-none');
-                        };
-                        reader.readAsDataURL(this.files[0]);
+                        }
                     }
                 });
                 
-                // Remove image when remove button is clicked
-                if (removeImageBtn) {
-                    removeImageBtn.addEventListener('click', function() {
+                // Remove media when remove button is clicked
+                const removeMediaBtn = document.getElementById('remove-media');
+                if (removeMediaBtn) {
+                    removeMediaBtn.addEventListener('click', function() {
                         imageInput.value = '';
                         imagePreview.classList.add('d-none');
+                        document.getElementById('media_type').value = '';
+                    });
+                }
+                
+                // Handle media type selection from the home page
+                const mediaButtons = document.querySelectorAll('[data-media-type]');
+                const mediaTypeInput = document.getElementById('media_type');
+                
+                if (mediaButtons.length > 0 && mediaTypeInput) {
+                    mediaButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const mediaType = this.getAttribute('data-media-type');
+                            mediaTypeInput.value = mediaType;
+                            
+                            // Automatically open file dialog based on media type
+                            setTimeout(() => {
+                                if (imageInput) {
+                                    // Update accept attribute based on media type
+                                    if (mediaType === 'photo') {
+                                        imageInput.setAttribute('accept', 'image/*');
+                                    } else if (mediaType === 'video') {
+                                        imageInput.setAttribute('accept', 'video/*');
+                                    } else if (mediaType === 'document') {
+                                        imageInput.setAttribute('accept', '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx');
+                                    }
+                                    imageInput.click();
+                                }
+                            }, 300);
+                        });
                     });
                 }
                 
