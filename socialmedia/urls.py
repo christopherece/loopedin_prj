@@ -23,6 +23,11 @@ from django.contrib.auth.views import LogoutView
 from .views import welcome_view
 from posts.views_pages import about_view, privacy_view, terms_view
 
+# Customize the admin site
+admin.site.site_header = 'LoopedIn Administration'
+admin.site.site_title = 'LoopedIn Admin'
+admin.site.index_title = 'Site Administration'
+
 urlpatterns = [
     path('', welcome_view, name='welcome'),  # Welcome page for unauthenticated users
     path('home/', include('posts.urls')),    # Posts app URLs moved to /home/
