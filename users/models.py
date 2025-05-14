@@ -17,8 +17,8 @@ class Profile(models.Model):
                 return self.image.url
         except Exception:
             pass
-        # Return a default SVG profile image
-        return static('img/default_profile.svg')
+        # Return the user-default.png image
+        return static('img/user-default.png')
     
     def __str__(self):
         return f'{self.user.username} Profile'
