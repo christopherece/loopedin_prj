@@ -97,6 +97,25 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        # Check if this is a modal submission
+        if request.POST.get('from_modal') == 'true':
+            form = self.get_form()
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()
+                messages.success(request, 'Your post has been created!')
+                return redirect('home')
+            else:
+                # If form is invalid, return to home with error message
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'{field}: {error}')
+                return redirect('home')
+        # Otherwise process as normal
+        return super().post(request, *args, **kwargs)
 
 # Update post view
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
