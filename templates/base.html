@@ -233,22 +233,12 @@
             <a class="navbar-brand" href="{% url 'home' %}">
                 <i class="fas fa-project-diagram me-1"></i> LoopedIn
             </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                {% if user.is_authenticated %}
-                <div class="d-lg-none mb-3 mt-2">
-                    <div class="card">
-                        <div class="card-body p-2">
-                            <div class="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createPostModal" style="cursor: pointer;">
-                                <img src="{{ user.profile.image_url }}" alt="{{ user.username }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
-                                <div class="form-control bg-light text-muted" style="cursor: pointer;">Start a post...</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
+
                 
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
@@ -291,18 +281,7 @@
                     </li>
                 </ul>
                 
-                {% if user.is_authenticated %}
-                <div class="d-none d-lg-block me-3" style="width: 300px;">
-                    <div class="card">
-                        <div class="card-body p-2">
-                            <div class="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createPostModal" style="cursor: pointer;">
-                                <img src="{{ user.profile.image_url }}" alt="{{ user.username }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
-                                <div class="form-control bg-light text-muted" style="cursor: pointer;">Start a post...</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
+
                 
                 {% if user.is_authenticated %}
                 <div class="d-flex align-items-center">

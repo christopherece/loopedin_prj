@@ -4,7 +4,17 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2 class="mb-4">Your Network Feed</h2>
+        {% if user.is_authenticated %}
+        <div class="card mb-4">
+            <div class="card-body p-3">
+                <div class="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createPostModal" style="cursor: pointer;">
+                    <img src="{{ user.profile.image_url }}" alt="{{ user.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                    <div class="form-control bg-light text-muted" style="cursor: pointer;">Start a post...</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
         {% if posts %}
             {% for post in posts %}
                 <div class="card post-card">
@@ -96,22 +106,7 @@
     </div>
     
     <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Welcome to Social Media</h4>
-            </div>
-            <div class="card-body">
-                <p>Connect with friends, share your thoughts, and discover interesting content.</p>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'post-create' %}" class="btn btn-primary w-100">Create New Post</a>
-                {% else %}
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-                        <a href="{% url 'register' %}" class="btn btn-outline-primary">Register</a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+
         
         <!-- Announcements Card -->
         <div class="card mb-4">
