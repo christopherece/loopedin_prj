@@ -180,7 +180,12 @@
                                 <li><a class="dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user-posts' user.username %}">My Posts</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);" id="logout-link">Logout</a></li>
+                                <li>
+                                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                                        {% csrf_token %}
+                                    </form>
+                                    <a class="dropdown-item" href="javascript:void(0);" id="logout-link">Logout</a>
+                                </li>
                             </ul>
                         </li>
                     {% else %}
@@ -278,7 +283,8 @@
             // Logout functionality
             $('#logout-link').click(function(e) {
                 e.preventDefault();
-                window.location.href = '{% url "logout" %}';
+                // Submit the logout form that already contains the CSRF token
+                $('#logout-form').submit();
             });
             
             // Notification functionality
