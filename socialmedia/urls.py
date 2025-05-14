@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
 from .views import welcome_view
+from posts.views_pages import about_view, privacy_view, terms_view
 
 urlpatterns = [
     path('', welcome_view, name='welcome'),  # Welcome page for unauthenticated users
@@ -30,6 +31,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html', http_method_names=['get', 'post']), name='logout'),
     path('register/', include('users.urls')),
     path('chat/', include('chat.urls')),
+    # Pages
+    path('about/', about_view, name='about'),
+    path('privacy/', privacy_view, name='privacy'),
+    path('terms/', terms_view, name='terms'),
 ]
 
 # Serve media files in any environment

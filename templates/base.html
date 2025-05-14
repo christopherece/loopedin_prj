@@ -276,9 +276,9 @@
                 {% if user.is_authenticated %}
                 <div class="d-flex align-items-center">
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex flex-column align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ user.profile.image_url }}" alt="{{ user.username }}" class="rounded-circle mb-1" style="width: 24px; height: 24px; object-fit: cover;">
-                            <span class="small d-none d-lg-inline">Me <i class="fas fa-caret-down"></i></span>
+                        <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ user.profile.image_url }}" alt="{{ user.username }}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+                            <i class="fas fa-caret-down ms-1 small"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li class="px-3 py-2">
@@ -345,9 +345,9 @@
             </div>
     
             <div class="mb-3">
-                <a href="#" class="text-muted me-3">About</a>
-                <a href="#" class="text-muted me-3">Privacy</a>
-                <a href="#" class="text-muted">Terms</a>
+                <a href="{% url 'about' %}" class="text-muted me-3">About</a>
+                <a href="{% url 'privacy' %}" class="text-muted me-3">Privacy</a>
+                <a href="{% url 'terms' %}" class="text-muted">Terms</a>
             </div>
     
             <div class="mb-3">
@@ -411,8 +411,8 @@
                 <div class="modal-footer">
                     <div class="d-flex justify-content-between w-100">
                         <div>
-                            <button type="button" class="btn btn-outline-primary" id="add-image-btn">
-                                <i class="fas fa-image"></i> Add Image
+                            <button type="button" class="btn btn-outline-primary" id="add-media-btn">
+                                <i class="fas fa-file-upload"></i> <span id="media-btn-text">Add Media</span>
                             </button>
                         </div>
                         <div>
@@ -528,7 +528,8 @@
             }
             
             // Post creation modal functionality
-            const addImageBtn = document.getElementById('add-image-btn');
+            const addMediaBtn = document.getElementById('add-media-btn');
+            const mediaButtonText = document.getElementById('media-btn-text');
             const imageInput = document.getElementById('id_image');
             const imagePreview = document.getElementById('image-preview');
             const previewImage = imagePreview?.querySelector('img');
@@ -536,9 +537,9 @@
             const submitPostBtn = document.getElementById('submit-post');
             const postForm = document.getElementById('post-form');
             
-            if (addImageBtn && imageInput) {
-                // Open file dialog when add image button is clicked
-                addImageBtn.addEventListener('click', function() {
+            if (addMediaBtn && imageInput) {
+                // Open file dialog when add media button is clicked
+                addMediaBtn.addEventListener('click', function() {
                     imageInput.click();
                 });
                 
@@ -606,6 +607,23 @@
                         button.addEventListener('click', function() {
                             const mediaType = this.getAttribute('data-media-type');
                             mediaTypeInput.value = mediaType;
+                            
+                            // Update the button text based on media type
+                            if (mediaButtonText) {
+                                if (mediaType === 'photo') {
+                                    mediaButtonText.textContent = 'Add Photo';
+                                    addMediaBtn.querySelector('i').className = 'fas fa-image';
+                                } else if (mediaType === 'video') {
+                                    mediaButtonText.textContent = 'Add Video';
+                                    addMediaBtn.querySelector('i').className = 'fas fa-video';
+                                } else if (mediaType === 'document') {
+                                    mediaButtonText.textContent = 'Add Document';
+                                    addMediaBtn.querySelector('i').className = 'fas fa-file-alt';
+                                } else {
+                                    mediaButtonText.textContent = 'Add Media';
+                                    addMediaBtn.querySelector('i').className = 'fas fa-file-upload';
+                                }
+                            }
                             
                             // Automatically open file dialog based on media type
                             setTimeout(() => {
