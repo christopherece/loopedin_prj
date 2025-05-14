@@ -146,7 +146,7 @@
                         {% for announcement in announcements %}
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center mb-2">
-                                    <div class="event-date text-center me-3 bg-light rounded p-1" style="min-width: 60px;">
+                                    <div class="event-date text-center me-3 rounded p-1" style="min-width: 60px; background-color: var(--linkedin-light-blue); color: var(--linkedin-text);">
                                         <span class="d-block fw-bold">{{ announcement.event_date|date:"M" }}</span>
                                         <span class="d-block fs-4">{{ announcement.event_date|date:"d" }}</span>
                                     </div>

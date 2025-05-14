@@ -30,11 +30,6 @@ class PostListView(LoginRequiredMixin, ListView):
             event_date__gte=timezone.now()
         ).order_by('event_date')[:5]  # Limit to 5 upcoming events
         
-        # Get active users (users with posts)
-        active_users = User.objects.annotate(
-            post_count=Count('posts')
-        ).filter(post_count__gt=0).order_by('-last_login')[:10]  # Top 10 active users
-        
         # Get currently logged in users (users with active sessions)
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         logged_in_user_ids = []
@@ -46,9 +41,13 @@ class PostListView(LoginRequiredMixin, ListView):
             if user_id:
                 logged_in_user_ids.append(int(user_id))
         
-        # Mark users as online or offline
+        # Get all users who are currently logged in
+        active_users = User.objects.filter(id__in=logged_in_user_ids).order_by('-last_login')[:10]  # Top 10 logged in users
+        
+        # Mark all as online and add post count
         for user in active_users:
-            user.is_online = user.id in logged_in_user_ids
+            user.is_online = True
+            user.post_count = Post.objects.filter(author=user).count()
         
         context['active_users'] = active_users
         

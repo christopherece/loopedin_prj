@@ -247,20 +247,8 @@
                             <span class="small">Home</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center" href="{% url 'chat-inbox' %}">
-                            <i class="fas fa-user-friends fa-lg d-block mb-1 position-relative">
-                                <span id="unread-messages-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem; display: none;">0</span>
-                            </i>
-                            <span class="small">My Network</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center" href="{% url 'post-create' %}">
-                            <i class="fas fa-plus-square fa-lg d-block mb-1"></i>
-                            <span class="small">Post</span>
-                        </a>
-                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link text-center position-relative" href="{% url 'notifications' %}">
                             <i class="fas fa-bell fa-lg d-block mb-1">
@@ -275,7 +263,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-center" href="{% url 'chat-inbox' %}">
-                            <i class="fas fa-envelope fa-lg d-block mb-1"></i>
+                            <i class="fas fa-envelope fa-lg d-block mb-1 position-relative">
+                                <span id="unread-messages-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem; display: none;">0</span>
+                            </i>
                             <span class="small">Messaging</span>
                         </a>
                     </li>
@@ -344,54 +334,31 @@
 
     <!-- Footer -->
     <footer class="mt-5 py-4" style="background-color: var(--linkedin-card-bg); border-top: 1px solid var(--linkedin-border);">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2 mb-3">
-                    <h6 class="text-primary mb-3"><i class="fas fa-project-diagram me-1"></i> LoopedIn</h6>
-                    <p class="small text-muted">&copy; {% now "Y" %} LoopedIn Corporation</p>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <h6 class="small fw-bold mb-3">Navigation</h6>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Home</a></li>
-                        <li class="mb-2"><a href="{% url 'chat-inbox' %}" class="text-decoration-none text-muted">My Network</a></li>
-                        <li class="mb-2"><a href="{% url 'post-create' %}" class="text-decoration-none text-muted">Create Post</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <h6 class="small fw-bold mb-3">LoopedIn</h6>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">About</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Community Guidelines</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Privacy & Terms</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <h6 class="small fw-bold mb-3">Business Solutions</h6>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Talent</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Marketing</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Advertising</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h6 class="small fw-bold mb-3">Connect with us</h6>
-                    <div class="d-flex gap-3 mb-3">
-                        <a href="#" class="text-muted"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="text-muted"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-muted"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-muted"><i class="fab fa-youtube fa-lg"></i></a>
-                    </div>
-                    <p class="small text-muted">Stay connected with LoopedIn for the latest updates, news, and features.</p>
-                </div>
+        <div class="container text-center">
+            <h6 class="text-primary mb-2"><i class="fas fa-project-diagram me-1"></i> LoopedIn</h6>
+            <p class="small text-muted mb-3">&copy; {% now "Y" %} LoopedIn Corporation | All Rights Reserved</p>
+    
+            <div class="mb-3">
+                <a href="{% url 'home' %}" class="text-muted me-3">Home</a>
+                <a href="{% url 'chat-inbox' %}" class="text-muted me-3">My Network</a>
+                <a href="{% url 'post-create' %}" class="text-muted">Create Post</a>
             </div>
-            <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <p class="small text-muted mb-0">LoopedIn &copy; {% now "Y" %} | All Rights Reserved</p>
-                </div>
+    
+            <div class="mb-3">
+                <a href="#" class="text-muted me-3">About</a>
+                <a href="#" class="text-muted me-3">Privacy</a>
+                <a href="#" class="text-muted">Terms</a>
+            </div>
+    
+            <div class="mb-3">
+                <a href="#" class="text-muted me-2"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-muted me-2"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-muted me-2"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-muted"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </footer>
+    
 
     <!-- Post Creation Modal -->
     {% if user.is_authenticated %}
@@ -495,22 +462,6 @@
                     darkModeIcon.classList.add('fa-sun');
                     localStorage.setItem('theme', 'dark');
                 }
-                const btn = $(this);
-                const url = btn.data('url');
-                
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(data) {
-                        if (data.liked) {
-                            btn.addClass('active');
-                            btn.html(`<i class="fas fa-heart"></i> ${data.count}`);
-                        } else {
-                            btn.removeClass('active');
-                            btn.html(`<i class="far fa-heart"></i> ${data.count}`);
-                        }
-                    }
-                });
             });
             
             // Logout functionality

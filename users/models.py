@@ -17,8 +17,8 @@ class Profile(models.Model):
                 return self.image.url
         except Exception:
             pass
-        # Return a default image URL (from a CDN or placeholder service)
-        return f'https://via.placeholder.com/150?text={self.user.username[0].upper()}'
+        # Return a default SVG profile image
+        return static('img/default_profile.svg')
     
     def __str__(self):
         return f'{self.user.username} Profile'
