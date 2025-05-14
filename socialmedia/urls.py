@@ -37,3 +37,33 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files even in production for the admin site
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Explicitly serve admin static files
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()
+
+# Add explicit paths for admin static files
+from django.views.static import serve
+import django
+django_path = django.__path__[0]
+
+# Always add these URL patterns to ensure admin static files are served correctly
+urlpatterns += [
+    # Direct admin static file paths
+    path('admin/css/<path:path>', serve, {
+        'document_root': django_path + '/contrib/admin/static/admin/css/'
+    }),
+    path('admin/js/<path:path>', serve, {
+        'document_root': django_path + '/contrib/admin/static/admin/js/'
+    }),
+    path('admin/img/<path:path>', serve, {
+        'document_root': django_path + '/contrib/admin/static/admin/img/'
+    }),
+    # For nav_sidebar.js specifically
+    path('admin/js/nav_sidebar.js', serve, {
+        'document_root': django_path + '/contrib/admin/static/admin/js/',
+        'path': 'nav_sidebar.js'
+    }),
+    # Catch-all for other admin static files
+    path('admin/<path:path>', lambda request, path: serve(request, path, document_root=django_path + '/contrib/admin/static/admin/') if path.startswith(('css/', 'js/', 'img/')) else admin.site.urls(request, path)),
+]
