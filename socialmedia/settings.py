@@ -157,7 +157,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Login URLs
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'welcome'
 LOGIN_URL = 'login'
 
 # Default primary key field type

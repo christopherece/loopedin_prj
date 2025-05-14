@@ -14,12 +14,13 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 # Home view to display all posts
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'posts/home.html'
     context_object_name = 'posts'
     ordering = ['-created_at']
     paginate_by = 5
+    login_url = 'login'  # Redirect to login page if not authenticated
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
