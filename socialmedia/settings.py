@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.10.141','192.168.10.250','socialbook.topitsolutions.co.nz']
 CSRF_TRUSTED_ORIGINS = ['https://socialbook.topitsolutions.co.nz','http://socialbook.topitsolutions.co.nz']
 
+# Fix for admin site CSS in production
+FORCE_SCRIPT_NAME = ''
+
 
 # Application definition
 
@@ -54,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Custom middleware for serving admin static files in production
+    'socialmedia.middleware.AdminStaticFilesMiddleware',
 ]
 
 # CSRF settings
@@ -130,9 +135,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Ensure admin static files are served correctly
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Media files
 MEDIA_URL = '/media/'

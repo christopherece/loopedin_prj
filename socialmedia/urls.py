@@ -30,5 +30,8 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve media files in any environment
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files even in production for the admin site
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
