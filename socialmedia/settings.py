@@ -61,7 +61,13 @@ MIDDLEWARE = [
 ]
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:*', 'http://localhost:*', 'http://127.0.0.1:57273']
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:*', 
+    'http://localhost:*', 
+    'http://127.0.0.1:57273',
+    'https://socialbook.topitsolutions.co.nz',
+    'http://socialbook.topitsolutions.co.nz'
+]
 
 # Disable CSRF for development
 if DEBUG:
