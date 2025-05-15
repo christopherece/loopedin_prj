@@ -471,6 +471,26 @@
                 $('#logout-form').submit();
             });
             
+            // Like button functionality
+            $(document).on('click', '.btn-like', function() {
+                const btn = $(this);
+                const url = btn.data('url');
+                
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.liked) {
+                            btn.addClass('active');
+                            btn.html(`<i class="fas fa-heart"></i> ${data.count}`);
+                        } else {
+                            btn.removeClass('active');
+                            btn.html(`<i class="far fa-heart"></i> ${data.count}`);
+                        }
+                    }
+                });
+            });
+            
             // Notification functionality
             $('.notification-link').click(function() {
                 const notificationId = $(this).data('notification-id');
