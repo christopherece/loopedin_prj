@@ -10,6 +10,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Custom CSS -->
     <style>
+        /* Custom container for more compact layout */
+        @media (min-width: 1200px) {
+            .container, .container-lg, .container-md, .container-sm, .container-xl {
+                max-width: 1000px; /* Reduced from default 1140px */
+            }
+        }
+        
+        /* More compact spacing */
+        .card {
+            margin-bottom: 1rem; /* Reduced from default 1.5rem */
+        }
+        
+        .card-body {
+            padding: 1rem; /* Reduced from default 1.25rem */
+        }
+        
+        .post-card {
+            margin-bottom: 1rem; /* Reduced from default 1.5rem */
+        }
+        
+        /* Reduce padding in various elements */
+        .py-4 {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        
+        .mb-4 {
+            margin-bottom: 1rem !important;
+        }
+        
+        .mt-4 {
+            margin-top: 1rem !important;
+        }
+        
+        /* Compact row spacing */
+        .row > * {
+            padding-right: calc(var(--bs-gutter-x) * .4);
+            padding-left: calc(var(--bs-gutter-x) * .4);
+        }
+        
         :root {
             /* LinkedIn inspired colors */
             --linkedin-blue: #0a66c2;
