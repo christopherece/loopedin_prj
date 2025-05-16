@@ -4,7 +4,51 @@
 {% block title %}{{ title }} | LoopedIn Admin{% endblock %}
 
 {% block extrastyle %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
+{{ block.super }}
+<style type="text/css">
+/* LoopedIn Admin Theme - LinkedIn inspired colors with improved contrast */
+#header {
+    background: #0a66c2;
+    color: #ffffff;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #ffffff;
+}
+
+#user-tools a:focus, #user-tools a:hover {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #0a66c2;
+}
+
+div.breadcrumbs {
+    background: #004182;
+}
+
+a:link, a:visited {
+    color: #0a66c2;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #0a66c2;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background: #004182;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #0a66c2;
+}
+
+.button.default:hover, input[type=submit].default:hover {
+    background: #004182;
+}
+</style>
 {% endblock %}
 
 {% block branding %}
