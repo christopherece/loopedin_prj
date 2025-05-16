@@ -54,9 +54,30 @@
         @media (max-width: 767.98px) {
             /* Adjust content padding for mobile */
             .content {
-                padding-top: 60px;
+                padding-top: 0 !important; /* Removed padding */
                 padding-left: 10px;
                 padding-right: 10px;
+            }
+            
+            /* iPhone and modern mobile optimization */
+            @media screen and (max-width: 428px) { /* iPhone 15 Pro Max width */
+                .content {
+                    margin-top: 30px !important;
+                }
+                .navbar {
+                    padding-top: 0.1rem !important;
+                    padding-bottom: 0.1rem !important;
+                    min-height: 30px !important;
+                }
+                .navbar-brand {
+                    font-size: 0.9rem;
+                }
+                .nav-link {
+                    padding: 0.2rem 0.5rem;
+                }
+                .navbar .fa-lg {
+                    font-size: 1em;
+                }
             }
             
             /* Make cards full-width on mobile */
@@ -169,6 +190,8 @@
             background-color: var(--linkedin-card-bg) !important;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             border-bottom: 1px solid var(--linkedin-border);
+            padding: 0.15rem 1rem;
+            min-height: 30px;
         }
         
         .navbar-brand {
@@ -423,7 +446,7 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container content">
+    <div class="container content" style="margin-top: 10px; padding-top: 0;">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">
