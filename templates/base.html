@@ -346,22 +346,24 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link text-center position-relative" href="{% url 'notifications' %}">
-                            <i class="fas fa-bell fa-lg d-block mb-1">
+                        <a class="nav-link text-center" href="{% url 'notifications' %}">
+                            <div class="position-relative d-inline-block">
+                                <i class="fas fa-bell fa-lg d-block mb-1"></i>
                                 {% if unread_notifications_count > 0 %}
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem;" id="notification-counter">
+                                <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem;" id="notification-counter">
                                     {{ unread_notifications_count }}
                                 </span>
                                 {% endif %}
-                            </i>
+                            </div>
                             <span class="small">Notifications</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-center" href="{% url 'chat-inbox' %}">
-                            <i class="fas fa-envelope fa-lg d-block mb-1 position-relative">
-                                <span id="unread-messages-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem; display: none;">0</span>
-                            </i>
+                            <div class="position-relative d-inline-block">
+                                <i class="fas fa-envelope fa-lg d-block mb-1"></i>
+                                <span id="unread-messages-count" class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger" style="font-size: 0.5rem; display: none;">0</span>
+                            </div>
                             <span class="small">Messaging</span>
                         </a>
                     </li>
