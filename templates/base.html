@@ -371,6 +371,7 @@
 
                 
                 <ul class="navbar-nav mx-auto text-center">
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center" href="{% url 'home' %}">
                             <i class="fas fa-home fa-lg me-2"></i>
@@ -401,6 +402,7 @@
                             <span>Messaging</span>
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
                 
 
@@ -473,7 +475,7 @@
     <footer class="mt-5 py-4" style="background-color: var(--linkedin-card-bg); border-top: 1px solid var(--linkedin-border);">
         <div class="container text-center">
             <h6 class="text-primary mb-2"><i class="fas fa-project-diagram me-1"></i> LoopedIn</h6>
-            <p class="small text-muted mb-3">&copy; {% now "Y" %} LoopedIn Corporation | All Rights Reserved</p>
+            <p class="small text-muted mb-3">&copy; {% now "Y" %} LoopedIn | All Rights Reserved | <a href="https://topitsolutions.co.nz" target="_blank">TopITSolutions</a></p>
     
             <div class="mb-3">
                 <a href="{% url 'home' %}" class="text-muted me-3">Home</a>
