@@ -31,6 +31,11 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.10.141','192.168.10.250','soc
 # Fix for admin site CSS in production
 FORCE_SCRIPT_NAME = ''
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600
+MAXIMUM_ASK_SIZE = 104857600
+
+
 
 # Application definition
 
