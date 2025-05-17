@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-cn3-=c&8_^n$+zw%9p@$7sg6hrulea*e$1-csa+or%zl%92b@q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.10.141','192.168.10.250','socialbook.topitsolutions.co.nz']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.10.141','192.168.10.250','socialbook.topitsolutions.co.nz','loopedin.topitsolutions.co.nz']
 CSRF_TRUSTED_ORIGINS = ['https://socialbook.topitsolutions.co.nz','http://socialbook.topitsolutions.co.nz']
 
 # Fix for admin site CSS in production
