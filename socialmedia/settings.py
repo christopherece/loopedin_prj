@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'chat',
+    'site_config.apps.SiteConfigConfig',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -95,6 +96,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'site_config.context_processors.site_config',
             ],
         },
     },

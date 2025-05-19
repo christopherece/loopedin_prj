@@ -364,7 +364,12 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-project-diagram me-1"></i> LoopedIn
+                {% if site_config.logo %}
+                    <img src="{{ site_config.logo.url }}" alt="{{ site_config.logo_name }}" height="30" class="me-1">
+                {% else %}
+                    <i class="fas fa-project-diagram me-1"></i>
+                {% endif %}
+                {{ site_config.logo_name }}
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
