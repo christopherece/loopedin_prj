@@ -54,8 +54,12 @@ a:link, a:visited {
 {% block branding %}
 <h1 id="site-name">
     <a href="{% url 'admin:index' %}">
-        <img src="#" alt="LoopedIn Logo" height="30" style="margin-right: 10px;">
-        LoopedIn Admin
+        {% if site_config.logo %}
+            <img src="{{ site_config.logo.url }}" alt="{{ site_config.logo_name }} Logo" height="30" style="margin-right: 10px;">
+        {% else %}
+            <img src="{% static 'img/loopedinlogo.png' %}" alt="LoopedIn Logo" height="30" style="margin-right: 10px;">
+        {% endif %}
+        {{ site_config.logo_name }} Admin
     </a>
 </h1>
 {% endblock %}
