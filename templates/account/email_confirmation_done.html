@@ -1,17 +1,19 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center mb-0">Email Confirmed!</h2>
-                </div>
-                <div class="card-body">
-                    <p class="text-center">Your email address has been successfully confirmed. You can now log in to your account.</p>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <div class="text-center">
+                        <i class="fas fa-check-circle fa-4x mb-4 text-success"></i>
+                        <h2 class="mb-4">Email Confirmed!</h2>
+                        <p class="lead mb-4">Your email address has been successfully confirmed. You can now log in to your account.</p>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg">Login</a>
+                        </div>
                     </div>
                 </div>
             </div>
