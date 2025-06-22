@@ -3,3 +3,6 @@ Pillow
 django-crispy-forms
 crispy-bootstrap5
 psycopg2-binary
+django-allauth==0.61.0
+django-otp==1.0.1
+django-otp-yubikey==1.0.0

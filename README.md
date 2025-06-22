@@ -5,6 +5,7 @@ A modern social media platform built with Django and Bootstrap, featuring user a
 ## Features
 
 - User authentication (register, login, logout)
+- Email confirmation for new registrations
 - User profiles with profile pictures
 - Create, read, update, and delete posts
 - Like and unlike posts
@@ -38,23 +39,33 @@ pip install -r requirements.txt
 
 4. Configure your PostgreSQL database settings in `socialmedia/settings.py`
 
-5. Apply migrations:
+5. Configure email settings in `socialmedia/settings.py`:
+```
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@gmail.com'
+EMAIL_HOST_PASSWORD = 'your-app-specific-password'
+```
+
+6. Apply migrations:
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-6. Create a superuser (admin):
+7. Create a superuser (admin):
 ```
 python manage.py createsuperuser
 ```
 
-7. Run the development server:
+8. Run the development server:
 ```
 python manage.py runserver
 ```
 
-8. Open your browser and navigate to `http://127.0.0.1:8000/`
+9. Open your browser and navigate to `http://127.0.0.1:8000/`
 
 ## Usage
 

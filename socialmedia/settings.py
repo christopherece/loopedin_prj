@@ -46,12 +46,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'chat',
     'site_config.apps.SiteConfigConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +64,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Custom middleware for serving admin static files in production
@@ -122,7 +127,7 @@ DATABASES = {
         'NAME': 'social_prj',
         'USER': 'postgres',
         'PASSWORD': 'Mmsucit1502',
-        'HOST': '192.168.10.42',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -157,6 +162,47 @@ TIME_ZONE = 'Pacific/Auckland'
 USE_I18N = True
 
 USE_TZ = True
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'topitsolutionsnz@gmail.com'
+EMAIL_HOST_PASSWORD = 'tlyp wlck iipl lrll'
+
+# Simplified SSL settings
+if DEBUG:
+    EMAIL_SSL_CERTFILE = None
+    EMAIL_SSL_KEYFILE = None
+
+# Add allauth settings
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+# Email confirmation settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+# Email templates
+ACCOUNT_EMAIL_SUBJECT_PREFIX = '[Social Media] '
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
+
+# Custom forms
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.UserSignupForm',
+    'login': 'users.forms.UserLoginForm',
+}
 
 
 # Static files (CSS, JavaScript, Images)

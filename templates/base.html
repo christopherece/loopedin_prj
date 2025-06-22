@@ -434,11 +434,11 @@
                                 </div>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user me-2"></i> View Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:profile' %}"><i class="fas fa-user me-2"></i> View Profile</a></li>
                             <li><a class="dropdown-item" href="{% url 'user-posts' user.username %}"><i class="fas fa-file-alt me-2"></i> My Posts</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                                <form id="logout-form" action="{% url 'account_logout' %}" method="post" style="display: none;">
                                     {% csrf_token %}
                                 </form>
                                 <a class="dropdown-item" href="javascript:void(0);" id="logout-link"><i class="fas fa-sign-out-alt me-2"></i> Sign Out</a>
@@ -455,10 +455,10 @@
                 {% else %}
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Sign In</a>
+                        <a href="{% url 'account_login' %}" class="btn btn-outline-primary me-2">Sign In</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'register' %}" class="btn btn-primary">Sign Up</a>
+                        <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
                     </li>
                 </ul>
                 {% endif %}
