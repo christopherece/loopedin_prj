@@ -1,6 +1,6 @@
 # Social Media App
 
-A simple social media application built with Django, HTML, and Bootstrap that allows users to create, read, update, and delete posts, as well as like and comment on posts.
+A modern social media platform built with Django and Bootstrap, featuring user authentication, profile management, and interactive post functionality.
 
 ## Features
 
@@ -10,7 +10,12 @@ A simple social media application built with Django, HTML, and Bootstrap that al
 - Like and unlike posts
 - Comment on posts
 - View posts by specific users
+- Real-time chat messaging
+- Private conversations between users
+- Unread message notifications
 - Responsive design with Bootstrap
+- PostgreSQL database support
+- Crispy Forms integration for beautiful form styling
 
 ## Installation
 
@@ -31,23 +36,25 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Apply migrations:
+4. Configure your PostgreSQL database settings in `socialmedia/settings.py`
+
+5. Apply migrations:
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-5. Create a superuser (admin):
+6. Create a superuser (admin):
 ```
 python manage.py createsuperuser
 ```
 
-6. Run the development server:
+7. Run the development server:
 ```
 python manage.py runserver
 ```
 
-7. Open your browser and navigate to `http://127.0.0.1:8000/`
+8. Open your browser and navigate to `http://127.0.0.1:8000/`
 
 ## Usage
 
@@ -62,13 +69,13 @@ python manage.py runserver
 
 ## Technologies Used
 
-- Django 5.2.1
+- Django
 - Bootstrap 5
-- HTML/CSS
-- JavaScript/jQuery
-- SQLite (database)
-- Crispy Forms (for form styling)
+- PostgreSQL (database)
+- Crispy Forms with Bootstrap 5 integration
 - Pillow (for image processing)
+- psycopg2-binary (PostgreSQL adapter)
+- AJAX for real-time chat updates
 
 ## License
 
