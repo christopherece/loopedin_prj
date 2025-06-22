@@ -109,12 +109,20 @@ WSGI_APPLICATION = 'socialmedia.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default1': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'socialmedia_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',
+        'PORT': '5432',
+    },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'social_prj',
+        'USER': 'postgres',
+        'PASSWORD': 'Mmsucit1502',
+        'HOST': '192.168.10.42',
         'PORT': '5432',
     }
 }
@@ -144,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Pacific/Auckland'
 
 USE_I18N = True
 
