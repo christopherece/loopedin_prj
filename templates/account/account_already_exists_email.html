@@ -1,0 +1,79 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Already Exists - {{ site.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .email-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .email-header h1 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .email-body {
+            margin-bottom: 30px;
+        }
+        .email-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>{{ site.name }}</h1>
+        </div>
+        
+        <div class="email-body">
+            <p>{% blocktrans %}Hello!{% endblocktrans %}</p>
+            
+            <p>{% blocktrans %}You are receiving this email because you or someone else tried to signup for an account using email address:{% endblocktrans %}</p>
+            <p style="font-size: 1.1em; font-weight: bold;">{{ email }}</p>
+            
+            <p>{% blocktrans %}However, an account using that email address already exists.  In case you have forgotten about this, please use the password forgotten procedure to recover your account:{% endblocktrans %}</p>
+            
+            <p><a href="{{ password_reset_url }}" class="btn-primary">Reset Password</a></p>
+        </div>
+        
+        <div class="email-footer">
+            <p>{% blocktrans %}Thank you for using {{ site.name }}!{% endblocktrans %}</p>
+            <p>{{ site.domain }}</p>
+        </div>
+    </div>
+</body>
+</html>

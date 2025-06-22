@@ -26,7 +26,20 @@ SECRET_KEY = 'django-insecure-cn3-=c&8_^n$+zw%9p@$7sg6hrulea*e$1-csa+or%zl%92b@q
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.10.141','192.168.10.250','socialbook.topitsolutions.co.nz','loopedin.topitsolutions.co.nz']
-# CSRF_TRUSTED_ORIGINS = ['https://socialbook.topitsolutions.co.nz','http://socialbook.topitsolutions.co.nz']
+SITE_ID = 1
+SITE_NAME = 'LoopedIn'
+SITE_DOMAIN = 'loopedin.topitsolutions.co.nz'
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:*', 
+    'http://localhost:*', 
+    'http://127.0.0.1:57273',
+    'https://socialbook.topitsolutions.co.nz',
+    'http://socialbook.topitsolutions.co.nz',
+    'https://loopedin.topitsolutions.co.nz',
+    'http://loopedin.topitsolutions.co.nz'
+]
 
 # Fix for admin site CSS in production
 FORCE_SCRIPT_NAME = ''
