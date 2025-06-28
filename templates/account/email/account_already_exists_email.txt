@@ -1,0 +1,16 @@
+Hi {{ user.username }},
+
+We noticed someone tried to create an account with your email address:
+
+{{ email }}
+
+An account with this email address already exists. If you've forgotten your password, you can reset it using the link below:
+
+{{ password_reset_url }}
+
+If you didn't attempt to create an account, you can safely ignore this email.
+
+Best regards,
+The LoopedIn Team
+
+© 2025 LoopedIn. All rights reserved.
