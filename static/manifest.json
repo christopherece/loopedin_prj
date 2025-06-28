@@ -1,0 +1,21 @@
+{
+  "name": "LoopedIn",
+  "short_name": "LoopedIn",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a66c2",
+  "theme_color": "#0a66c2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/img/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/img/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
