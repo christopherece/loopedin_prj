@@ -45,11 +45,30 @@ class Post(models.Model):
             if self.image and hasattr(self.image, 'path'):
                 file_name = self.image.name.lower()
                 if file_name.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp')):
+                    # Open image and get EXIF data
                     img = Image.open(self.image.path)
+                    
+                    # Handle EXIF orientation
+                    try:
+                        exif = img._getexif()
+                        if exif:
+                            orientation = exif.get(274, 1)  # 274 is the EXIF orientation tag
+                            if orientation == 3:
+                                img = img.rotate(180, expand=True)
+                            elif orientation == 6:
+                                img = img.rotate(270, expand=True)
+                            elif orientation == 8:
+                                img = img.rotate(90, expand=True)
+                    except (AttributeError, KeyError, IndexError):
+                        pass  # No EXIF data or error reading it
+                    
+                    # Resize if needed
                     if img.height > 800 or img.width > 800:
                         output_size = (800, 800)
                         img.thumbnail(output_size)
-                        img.save(self.image.path)
+                    
+                    # Save the processed image
+                    img.save(self.image.path)
         except Exception as e:
             # Handle case where image file doesn't exist
             print(f"Error processing post image: {e}")
